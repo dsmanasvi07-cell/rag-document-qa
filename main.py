@@ -8,6 +8,17 @@ from vector_store import VectorStore
 from rag_pipeline import generate_answer
 
 app = FastAPI(title="RAG Document Q&A API")
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI(title="RAG Document Q&A API")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],          # allows requests from any domain (fine for a demo project)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Keep the vector store in memory for the running session.
 # (Simple approach for a learning project — real production systems
