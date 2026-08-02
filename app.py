@@ -15,7 +15,7 @@ if uploaded_file is not None:
     if st.button("Process document"):
         with st.spinner("Extracting, chunking, and embedding..."):
             files = {"file": (uploaded_file.name, uploaded_file.getvalue(), "application/pdf")}
-            response = requests.post(f"{API_URL}/upload", files=files)
+            response = requests.post(f"{API_URL}/upload", files=files,timeout=60)
 
         if response.status_code == 200:
             data = response.json()
@@ -33,7 +33,7 @@ if st.button("Get answer"):
         st.warning("Please type a question first.")
     else:
         with st.spinner("Retrieving relevant context and generating answer..."):
-            response = requests.post(f"{API_URL}/ask", json={"question": question})
+            response = requests.post(f"{API_URL}/ask", json={"question": question}, timeout=60)
 
         if response.status_code == 200:
             data = response.json()
