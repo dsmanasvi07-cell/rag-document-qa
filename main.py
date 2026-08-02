@@ -34,7 +34,7 @@ class Question(BaseModel):
 @app.post("/upload")
 async def upload_document(file: UploadFile = File(...)):
     global is_ready
-
+    os.makedirs("data/uploads", exist_ok=True)
     # Save the uploaded file to disk
     save_path = f"data/uploads/{file.filename}"
     with open(save_path, "wb") as f:
