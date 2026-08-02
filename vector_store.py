@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-EMBED_MODEL = "models/text-embedding-001"
+EMBED_MODEL = "models/gemini-embedding-001"
 
 
 def get_embedding(text: str) -> list[float]:
