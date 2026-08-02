@@ -16,13 +16,17 @@ if uploaded_file is not None:
         with st.spinner("Extracting, chunking, and embedding..."):
             files = {"file": (uploaded_file.name, uploaded_file.getvalue(), "application/pdf")}
             response = requests.post(f"{API_URL}/upload", files=files,timeout=60)
-
+    try:
+        response = requests.post(f"{API_URL}/upload", files=files, timeout=60)
         if response.status_code == 200:
             data = response.json()
             st.success(f"Indexed {data['chunks_created']} chunks from {data['filename']}")
             st.session_state["document_ready"] = True
         else:
-            st.error("Upload failed. Check that the backend server is running.")
+            st.error(f"Upload failed. Status code: {response.status_code}")
+            st.code(response.text)
+    except requests.exceptions.RequestException as e:
+     st.error(f"Connection error: {e}")
 
 # --- Ask section ---
 st.header("2. Ask a question")
